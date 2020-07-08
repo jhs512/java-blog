@@ -69,15 +69,14 @@ public class ArticleController extends Controller {
 		if (!Util.empty(req, "cateItemId") && Util.isNum(req, "cateItemId")) {
 			cateItemId = Util.getInt(req, "cateItemId");
 		}
-		
+
 		String cateItemName = "전체";
-		
-		if ( cateItemId != 0 ) {
+
+		if (cateItemId != 0) {
 			CateItem cateItem = articleService.getCateItem(cateItemId);
 			cateItemName = cateItem.getName();
 		}
 		req.setAttribute("cateItemName", cateItemName);
-		
 
 		String searchKeywordType = "";
 
