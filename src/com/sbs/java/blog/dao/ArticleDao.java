@@ -8,6 +8,7 @@ import java.util.Map;
 import com.sbs.java.blog.dto.Article;
 import com.sbs.java.blog.dto.CateItem;
 import com.sbs.java.blog.util.DBUtil;
+import com.sbs.java.blog.util.SecSql;
 
 public class ArticleDao extends Dao {
 	private Connection dbConn;
@@ -105,6 +106,17 @@ public class ArticleDao extends Dao {
 	}
 
 	public int write(int cateItemId, String title, String body) {
+		SecSql secSql = new SecSql();
+		
+		secSql.append("INSERT INTO article");
+		secSql.append("SET regDate = NOW()");
+		secSql.append(", updateDate = NOW()");
+		secSql.append(", title = ? ", title);
+		secSql.append(", body = ? ", body);
+		secSql.append(", displayStatus = '1'");
+		secSql.append(", cateItemId = ?", cateItemId);
+		
+		/*
 		String sql = "";
 
 		sql += String.format("INSERT INTO article ");
@@ -114,7 +126,8 @@ public class ArticleDao extends Dao {
 		sql += String.format(", body = '%s' ", body);
 		sql += String.format(", displayStatus = '1' ");
 		sql += String.format(", cateItemId = '%d' ", cateItemId);
+		*/
 		
-		return DBUtil.insert(dbConn, sql);
+		return DBUtil.insert(dbConn, secSql);
 	}
 }
