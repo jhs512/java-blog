@@ -68,7 +68,7 @@ public class ArticleDao extends Dao {
 
 		sql.append("SELECT *, '장희성' AS extra__writer ");
 		sql.append("FROM article ");
-		sql.append("WHERE 1 ");
+		sql.append("WHER 1 ");
 		sql.append("AND id = ? ", id);
 		sql.append("AND displayStatus = 1 ");
 
