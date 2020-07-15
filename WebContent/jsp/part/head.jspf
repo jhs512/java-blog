@@ -1,9 +1,13 @@
 <%@ page import="java.util.List"%>
 <%@ page import="com.sbs.java.blog.dto.CateItem"%>
+<%@ page import="com.sbs.java.blog.dto.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
 	List<CateItem> cateItems = (List<CateItem>) request.getAttribute("cateItems");
+	int loginedMemberId = (int) request.getAttribute("loginedMemberId");
+	Member loginedMember = (Member) request.getAttribute("loginedMember");
+	boolean isLogined = (boolean) request.getAttribute("isLogined");
 %>
 
 <!DOCTYPE html>
@@ -35,11 +39,32 @@
 <script src="${pageContext.request.contextPath}/resource/js/common.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resource/js/home/main.js"></script>
-	
+
 <%="<style>.form1 .form-row:not(:first-child) { margin-top : 10px; }</style>"%>
 
 
 <title>장희성 블로그</title>
+<script>
+	var loginedMemberId = parseInt("${loginedMemberId}");
+	var isLogined = "${isLogined}" == "true";
+	var loginedMember = null;
+</script>
+<%
+	if (isLogined) {
+%>
+<script>
+	loginedMember = {};
+	loginedMember["id"] = parseInt("${loginedMember.id}");
+	loginedMember["regDate"] = "${loginedMember.regDate}";
+	loginedMember["loginId"] = "${loginedMember.loginId}";
+	loginedMember["name"] = "${loginedMember.name}";
+	loginedMember["nickname"] = "${loginedMember.nickname}";
+	loginedMember["email"] = "${loginedMember.email}";
+</script>
+<%
+	}
+%>
+
 </head>
 
 <body>
@@ -54,18 +79,16 @@
 	<div class="mobile-side-bar flex flex-ai-c visible-on-sm-down">
 		<nav class="menu-box-1 flex-grow-1">
 			<ul>
-				<li>
-					<a href="${pageContext.request.contextPath}/s/home/main" class="block">Home</a>
-				</li>
-				<li>
-					<a href="${pageContext.request.contextPath}/s/article/write" class="block">Write</a>
-				</li>
-				<li>
-					<a href="#" class="block">Articles</a>
+				<li><a href="${pageContext.request.contextPath}/s/home/main"
+					class="block">Home</a></li>
+				<li><a
+					href="${pageContext.request.contextPath}/s/article/write"
+					class="block">Write</a></li>
+				<li><a href="#" class="block">Articles</a>
 					<ul>
 						<li><a
-								href="${pageContext.request.contextPath}/s/article/list"
-								class="block">전체</a></li>
+							href="${pageContext.request.contextPath}/s/article/list"
+							class="block">전체</a></li>
 						<%
 							for (CateItem cateItem : cateItems) {
 						%>
@@ -75,8 +98,7 @@
 						<%
 							}
 						%>
-					</ul>
-				</li>
+					</ul></li>
 				<li><a href="${pageContext.request.contextPath}/s/home/aboutMe"
 					class="block">AboutMe</a></li>
 				<li><a href="#" class="block">SNS</a>
@@ -99,10 +121,13 @@
 				<ul class="flex height-100p">
 					<li><a href="${pageContext.request.contextPath}/s/home/main"
 						class="flex height-100p flex-ai-c">Home</a></li>
-					<li><a href="${pageContext.request.contextPath}/s/article/write"
+					<li><a
+						href="${pageContext.request.contextPath}/s/article/write"
 						class="flex height-100p flex-ai-c">Write</a></li>
 					</li>
-					<li><a href="${pageContext.request.contextPath}/s/article/list" class="flex height-100p flex-ai-c">Articles</a>
+					<li><a
+						href="${pageContext.request.contextPath}/s/article/list"
+						class="flex height-100p flex-ai-c">Articles</a>
 						<ul>
 							<%
 								for (CateItem cateItem : cateItems) {
@@ -128,3 +153,11 @@
 			</nav>
 		</div>
 	</div>
+	<%
+		if (loginedMember != null) {
+	%>
+	<div class="con"><%=loginedMember.getName()%>번 회원님 환영합니다.
+	</div>
+	<%
+		}
+	%>
