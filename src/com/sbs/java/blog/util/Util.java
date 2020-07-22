@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -84,14 +85,18 @@ public class Util {
 	}
 
 	public static String getString(HttpServletRequest req, String paramName, String elseValue) {
-		if ( req.getParameter(paramName) == null ) {
+		if (req.getParameter(paramName) == null) {
 			return elseValue;
 		}
-		
-		if ( req.getParameter(paramName).trim().length() == 0 ) {
+
+		if (req.getParameter(paramName).trim().length() == 0) {
 			return elseValue;
 		}
-		
+
 		return getString(req, paramName);
+	}
+
+	public static boolean isSuccess(Map<String, Object> rs) {
+		return ((String) rs.get("resultCode")).startsWith("S-1");
 	}
 }

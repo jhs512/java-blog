@@ -15,6 +15,12 @@ body, ul, li, h1 {
 a {
 	color: inherit;
 	text-decoration: none;
+	opacity: 0.9;
+}
+
+a:hover {
+	opacity: 1;
+	text-decoration: underline;
 }
 
 label[for] {
@@ -32,11 +38,11 @@ label[for] {
 }
 
 .abs-full {
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 }
 
 .absolute-left {
@@ -83,15 +89,15 @@ label[for] {
 }
 
 .ratio-16-9::after {
-  content:"";
-  display:block;
-  padding-top:56.25%;
+	content: "";
+	display: block;
+	padding-top: 56.25%;
 }
 
 .ratio-1-1::after {
-  content:"";
-  display:block;
-  padding-top:100%;
+	content: "";
+	display: block;
+	padding-top: 100%;
 }
 
 .cell {
@@ -351,37 +357,51 @@ label[for] {
 /* 커스텀 라이브러리 */
 /* lib */
 .form1 {
-    display: block; width: 100%;
+	display: block;
+	width: 100%;
 }
 
 .form1 .form-row {
-    align-items: center; display: flex;
+	align-items: center;
+	display: flex;
 }
 
 .form1 .form-row>.label {
-    width: 100px;
+	width: 100px;
 }
 
 .form1 .form-row>.input {
-    flex-grow: 1;
+	flex-grow: 1;
 }
 
-.form1 .form-row>.input>input,.form1 .form-row>.input>textarea {
-    display: block; width: 100%; box-sizing: border-box; padding: 10px;
+.form1 .form-row>.input>input, .form1 .form-row>.input>textarea {
+	display: block;
+	width: 100%;
+	box-sizing: border-box;
+	padding: 10px;
 }
 
 .form1 .form-row>.input>select {
-    padding: 10px;
+	padding: 10px;
 }
 
 .form1 .form-row>.input>textarea {
-    height: 500px;
+	height: 500px;
 }
 
 @media ( max-width : 700px ) {
-    .form1 .form-row {
-        display: block;
-    }
+	.form1 .form-row {
+		display: block;
+	}
+}
+
+.table-box>table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.table-box>table th, .table-box>table td {
+	border: 1px solid black;
 }
 /* 커스텀 */
 @media ( max-width :799px) {

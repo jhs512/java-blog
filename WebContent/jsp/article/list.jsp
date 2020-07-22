@@ -7,7 +7,7 @@
 	List<Article> articles = (List<Article>) request.getAttribute("articles");
 	int totalPage = (int) request.getAttribute("totalPage");
 	int paramPage = (int) request.getAttribute("page");
-	String cateItemName = (String)request.getAttribute("cateItemName");
+	String cateItemName = (String) request.getAttribute("cateItemName");
 %>
 <!-- 하이라이트 라이브러리 추가, 토스트 UI 에디터에서 사용됨 -->
 <script
@@ -67,17 +67,62 @@
 
 <div class="con">총 게시물 수 : ${totalCount}</div>
 
-<div class="con">
-	<ul>
-		<%
-			for (Article article : articles) {
-		%>
-		<li><a href="./detail?id=<%=article.getId()%>"><%=article.getId()%>,
-				<%=article.getCateItemId()%>, <%=article.getTitle()%></a></li>
-		<%
-			}
-		%>
-	</ul>
+<div class="con table-box">
+	<table>
+		<colgroup>
+			<col width="100">
+			<col width="200">
+			<col width="120">
+			<col>
+			<col width="120">
+		</colgroup>
+		<thead>
+			<tr>
+				<th>번호</th>
+				<th>날짜</th>
+				<th>카테고리 아이템</th>
+				<th>제목</th>
+				<th>비고</th>
+			</tr>
+		</thead>
+		<tbody>
+			<%
+				for (Article article : articles) {
+			%>
+			<tr>
+				<td class="text-align-center"><a
+					href="./detail?id=<%=article.getId()%>"><%=article.getId()%></a></td>
+				<td class="text-align-center"><%=article.getRegDate()%></td>
+				<td class="text-align-center"><%=article.getCateItemId()%></td>
+				<td><a href="./detail?id=<%=article.getId()%>"><%=article.getTitle()%></a></td>
+				<td>
+					<div class="inline-block">
+						<%
+							if ((boolean) article.getExtra().get("deleteAvailable")) {
+						%>
+						<a onclick="if ( confirm('삭제하시겠습니까?') == false ) return false;"
+							href="./doDelete?id=<%=article.getId()%>">삭제</a>
+						<%
+							}
+						%>
+					</div>
+					<div class="inline-block">
+						<%
+							if ((boolean) article.getExtra().get("modifyAvailable")) {
+						%>
+						<a onclick="if ( confirm('수정하시겠습니까?') == false ) return false;"
+							href="./modify?id=<%=article.getId()%>">수정</a>
+						<%
+							}
+						%>
+					</div>
+				</td>
+			</tr>
+			<%
+				}
+			%>
+		</tbody>
+	</table>
 </div>
 
 <div class="con page-box">
@@ -86,7 +131,8 @@
 			for (int i = 1; i <= totalPage; i++) {
 		%>
 		<li class="<%=i == paramPage ? "current" : ""%>"><a
-			href="?cateItemId=${param.cateItemId}&searchKeywordType=${param.searchKeywordType}&searchKeyword=${param.searchKeyword}&page=<%=i%>" class="block"><%=i%></a></li>
+			href="?cateItemId=${param.cateItemId}&searchKeywordType=${param.searchKeywordType}&searchKeyword=${param.searchKeyword}&page=<%=i%>"
+			class="block"><%=i%></a></li>
 		<%
 			}
 		%>
