@@ -117,7 +117,7 @@
 				<c:forEach items="${paramValues}" var="p">
 					<c:choose>
 						<c:when test="${p.key == 'jsAction'}">
-							
+
 						</c:when>
 						<c:otherwise>
 							<c:forEach items="${p.value}" var="val">
@@ -126,7 +126,7 @@
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>
-				
+
 				<c:param name="jsAction" value="WriteReplyList__showTop" />
 			</c:url>
 			<input type="hidden" name="redirectUrl" value="${redirectUrl}">
@@ -150,11 +150,66 @@
 </c:if>
 
 <script>
-function WriteReplyList__showTop() {
-	alert('댓글 리스트');
-}
+	function WriteReplyList__showTop() {
+		var top = $('.article-replies-list-box').offset().top;
+		$(window).scrollTop(top);
+
+		var $firstTr = $('.article-replies-list-box > table > tbody > tr:first-child');
+
+		$firstTr.addClass('high');
+		setTimeout(function() {
+			$firstTr.removeClass('high');
+		}, 1000);
+	}
 </script>
 
+<style>
+.article-replies-list-box > table > tbody > tr.high {
+	background-color:#dfdfdf;
+} 
 
+.article-replies-list-box > table > tbody > tr {
+	transition: background-color 1s;
+} 
+</style>
+
+<h2 class="con">댓글 리스트</h2>
+
+<div class="con article-replies-list-box table-box">
+	<table>
+		<colgroup>
+			<col width="100">
+			<col width="200">
+			<col>
+			<col width="120">
+		</colgroup>
+		<thead>
+			<tr>
+				<th>번호</th>
+				<th>날짜</th>
+				<th>내용</th>
+				<th>비고</th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach items="${articleReplies}" var="articleReply">
+				<tr>
+					<td class="text-align-center">${articleReply.id}</td>
+					<td class="text-align-center">${articleReply.regDate}</td>
+					<td class="padding-left-10 padding-right-10">
+						<script type="text/x-template">${articleReply.bodyForXTemplate}</script>
+						<div class="toast-editor toast-editor-viewer"></div>
+					</td>
+					<td class="text-align-center"><c:if test="${articleReply.extra.deleteAvailable}">
+							<a onclick="if ( confirm('삭제하시겠습니까?') == false ) return false;"
+								href="./doDeleteReply?id=${articleReply.id}">삭제</a>
+						</c:if> <c:if test="${articleReply.extra.modifyAvailable}">
+							<a href="./modifyReply?id=${articleReply.id}">수정</a>
+						</c:if></td>
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>
+</div>
 
 <%@ include file="/jsp/part/foot.jspf"%>
