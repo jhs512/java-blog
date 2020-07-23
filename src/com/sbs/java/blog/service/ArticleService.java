@@ -109,4 +109,8 @@ public class ArticleService extends Service {
 		return articleDao.modifyArticle(id, cateItemId, title, body);
 	}
 
+	public int writeArticleReply(int articleId, int memberId, String body) {
+		return articleDao.writeArticleReply(articleId, memberId, body);
+	}
+
 }
