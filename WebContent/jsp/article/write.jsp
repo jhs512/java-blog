@@ -18,14 +18,14 @@
 	var submitWriteFormDone = false;
 
 	function submitWriteForm(form) {
-		if ( submitWriteFormDone ) {
+		if (submitWriteFormDone) {
 			alert('처리중입니다.');
 			return;
 		}
-		
+
 		form.title.value = form.title.value.trim();
 
-		if ( form.title.value.length == 0 ) {
+		if (form.title.value.length == 0) {
 			alert('제목을 입력해주세요.');
 			form.title.focus();
 
@@ -37,7 +37,7 @@
 		var body = editor.getMarkdown();
 		body = body.trim();
 
-		if ( body.length == 0 ) {
+		if (body.length == 0) {
 			alert('내용을 입력해주세요.');
 			editor.focus();
 
@@ -59,14 +59,9 @@
 			<div class="label">카테고리 선택</div>
 			<div class="input">
 				<select name="cateItemId">
-					<%
-						for (CateItem cateItem : cateItems) {
-					%>
-					<option value="<%=cateItem.getId()%>"><%=cateItem.getName()%></option>
-					<%
-						}
-					%>
-
+					<c:forEach items="${cateItems}" var="cateItem">
+						<option value="${cateItem.id}">${cateItem.name}</option>
+					</c:forEach>
 				</select>
 			</div>
 		</div>

@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/jsp/part/head.jspf"%>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
 
 <style>
 /* cus */
@@ -38,8 +39,9 @@
 <div class="login-form-box con">
 	<form action="doLogin" method="POST" class="login-form form1"
 		onsubmit="submitLoginForm(this); return false;">
-		<input type="hidden" name="redirectUrl" value="${param.afterLoginRedirectUrl}" />
-		<input type="hidden" name="loginPwReal" />
+		<input type="hidden" name="redirectUrl"
+			value="${param.afterLoginRedirectUrl}" /> <input type="hidden"
+			name="loginPwReal" />
 		<div class="form-row">
 			<div class="label">로그인 아이디</div>
 			<div class="input">
