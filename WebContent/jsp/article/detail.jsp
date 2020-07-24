@@ -1,3 +1,4 @@
+<%@ page import="com.sbs.java.blog.util.Util"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -112,22 +113,12 @@
 			class="write-reply-form form1"
 			onsubmit="WriteReplyForm__submit(this); return false;">
 			<input type="hidden" name="articleId" value="${article.id}">
-			<c:url value="${noBaseCurrentUri}" var="redirectUrl">
-				<c:forEach items="${paramValues}" var="p">
-					<c:choose>
-						<c:when test="${p.key == 'jsAction'}">
 
-						</c:when>
-						<c:otherwise>
-							<c:forEach items="${p.value}" var="val">
-								<c:param name="${p.key}" value="${val}" />
-							</c:forEach>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-
-				<c:param name="jsAction" value="WriteReplyList__showDetail" />
-			</c:url>
+			<c:set var="redirectUrl"
+				value="${Util.getNewUrlRemoved(currentUrl, 'generatedArticleReplyId')}" />
+			<c:set var="redirectUrl"
+				value="${Util.getNewUrl(redirectUrl, 'jsAction', 'WriteReplyList__showDetail')}" />
+				
 			<input type="hidden" name="redirectUrl" value="${redirectUrl}">
 			<input type="hidden" name="body">
 			<div class="form-row">
@@ -149,11 +140,16 @@
 </c:if>
 
 <script>
-	function WriteReplyList__showDetail() {
+	function WriteReplyList__showTop() {
 		var top = $('.article-replies-list-box').offset().top;
 		$(window).scrollTop(top);
+	}
 
-		var $tr = $('.article-replies-list-box > table > tbody > tr[data-id="' + param.generatedArticleReplyId + '"]');
+	function WriteReplyList__showDetail() {
+		WriteReplyList__showTop();
+
+		var $tr = $('.article-replies-list-box > table > tbody > tr[data-id="'
+				+ param.generatedArticleReplyId + '"]');
 
 		$tr.addClass('high');
 		setTimeout(function() {
@@ -163,13 +159,13 @@
 </script>
 
 <style>
-.article-replies-list-box > table > tbody > tr.high {
-	background-color:#dfdfdf;
-} 
+.article-replies-list-box>table>tbody>tr.high {
+	background-color: #dfdfdf;
+}
 
-.article-replies-list-box > table > tbody > tr {
+.article-replies-list-box>table>tbody>tr {
 	transition: background-color 1s;
-} 
+}
 </style>
 
 <h2 class="con">댓글 리스트</h2>
@@ -195,15 +191,26 @@
 				<tr data-id="${articleReply.id}">
 					<td class="text-align-center">${articleReply.id}</td>
 					<td class="text-align-center">${articleReply.regDate}</td>
-					<td class="padding-left-10 padding-right-10">
-						<script type="text/x-template">${articleReply.bodyForXTemplate}</script>
-						<div class="toast-editor toast-editor-viewer"></div>
-					</td>
-					<td class="text-align-center"><c:if test="${articleReply.extra.deleteAvailable}">
+					<td class="padding-left-10 padding-right-10"><script
+							type="text/x-template">${articleReply.bodyForXTemplate}</script>
+						<div class="toast-editor toast-editor-viewer"></div></td>
+					<td class="text-align-center"><c:if
+							test="${articleReply.extra.deleteAvailable}">
+							<c:set var="afterDeleteReplyRedirectUrl"
+								value="${Util.getNewUrlRemoved(currentUrl, 'generatedArticleReplyId')}" />
+							<c:set var="afterDeleteReplyRedirectUrl"
+								value="${Util.getNewUrlAndEncoded(afterDeleteReplyRedirectUrl, 'jsAction', 'WriteReplyList__showTop')}" />
+
+							<c:set var="afterModifyReplyRedirectUrl"
+								value="${Util.getNewUrlRemoved(currentUrl, 'generatedArticleReplyId')}" />
+							<c:set var="afterModifyReplyRedirectUrl"
+								value="${Util.getNewUrlAndEncoded(afterModifyReplyRedirectUrl, 'jsAction', 'WriteReplyList__showDetail')}" />
+
 							<a onclick="if ( confirm('삭제하시겠습니까?') == false ) return false;"
-								href="./doDeleteReply?id=${articleReply.id}">삭제</a>
+								href="./doDeleteReply?id=${articleReply.id}&redirectUrl=${afterDeleteReplyRedirectUrl}">삭제</a>
 						</c:if> <c:if test="${articleReply.extra.modifyAvailable}">
-							<a href="./modifyReply?id=${articleReply.id}">수정</a>
+							<a
+								href="./modifyReply?id=${articleReply.id}&redirectUrl=${afterModifyReplyRedirectUrl}">수정</a>
 						</c:if></td>
 				</tr>
 			</c:forEach>
