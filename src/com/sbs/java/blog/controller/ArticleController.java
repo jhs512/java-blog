@@ -62,13 +62,13 @@ public class ArticleController extends Controller {
 
 		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
 		String body = Util.getString(req, "body");
-		String redirectUrl = Util.getString(req, "redirectUrl");
+		String redirectUri = Util.getString(req, "redirectUri");
 
 		int id = articleService.writeArticleReply(articleId, loginedMemberId, body);
-		
-		redirectUrl = Util.getNewUrl(redirectUrl, "generatedArticleReplyId", id + "");
 
-		return "html:<script> alert('" + id + "번 댓글이 작성되었습니다.'); location.replace('" + redirectUrl + "'); </script>";
+		redirectUri = Util.getNewUri(redirectUri, "generatedArticleReplyId", id + "");
+
+		return "html:<script> alert('" + id + "번 댓글이 작성되었습니다.'); location.replace('" + redirectUri + "'); </script>";
 	}
 
 	private String doActionWrite() {
@@ -102,7 +102,7 @@ public class ArticleController extends Controller {
 
 		return "html:<script> alert('" + id + "번 게시물이 수정되었습니다.'); location.replace('detail?id=" + id + "'); </script>";
 	}
-	
+
 	private String doActionDoDeleteReply() {
 		if (Util.empty(req, "id")) {
 			return "html:id를 입력해주세요.";
@@ -116,17 +116,19 @@ public class ArticleController extends Controller {
 
 		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
 
-		Map<String, Object> getReplyCheckRsDeleteAvailableRs = articleService.getReplyCheckRsDeleteAvailable(id, loginedMemberId);
+		Map<String, Object> getReplyCheckRsDeleteAvailableRs = articleService.getReplyCheckRsDeleteAvailable(id,
+				loginedMemberId);
 
 		if (Util.isSuccess(getReplyCheckRsDeleteAvailableRs) == false) {
-			return "html:<script> alert('" + getReplyCheckRsDeleteAvailableRs.get("msg") + "'); history.back(); </script>";
+			return "html:<script> alert('" + getReplyCheckRsDeleteAvailableRs.get("msg")
+					+ "'); history.back(); </script>";
 		}
 
 		articleService.deleteArticleReply(id);
-		
-		String redirectUrl = Util.getString(req, "redirectUrl", "list");
 
-		return "html:<script> alert('" + id + "번 댓글이 삭제되었습니다.'); location.replace('" + redirectUrl + "'); </script>";
+		String redirectUri = Util.getString(req, "redirectUri", "list");
+
+		return "html:<script> alert('" + id + "번 댓글이 삭제되었습니다.'); location.replace('" + redirectUri + "'); </script>";
 	}
 
 	private String doActionDoDelete() {
@@ -141,7 +143,7 @@ public class ArticleController extends Controller {
 		int id = Util.getInt(req, "id");
 
 		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
-		
+
 		Map<String, Object> getCheckRsDeleteAvailableRs = articleService.getCheckRsDeleteAvailable(id, loginedMemberId);
 
 		if (Util.isSuccess(getCheckRsDeleteAvailableRs) == false) {
@@ -180,9 +182,9 @@ public class ArticleController extends Controller {
 
 		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
 		Article article = articleService.getForPrintArticle(id, loginedMemberId);
-		
+
 		List<ArticleReply> articleReplies = articleService.getForPrintArticleReplies(id, loginedMemberId);
-		
+
 		req.setAttribute("article", article);
 		req.setAttribute("articleReplies", articleReplies);
 
