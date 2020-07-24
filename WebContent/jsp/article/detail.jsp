@@ -126,7 +126,7 @@
 					</c:choose>
 				</c:forEach>
 
-				<c:param name="jsAction" value="WriteReplyList__showTop" />
+				<c:param name="jsAction" value="WriteReplyList__showDetail" />
 			</c:url>
 			<input type="hidden" name="redirectUrl" value="${redirectUrl}">
 			<input type="hidden" name="body">
@@ -149,15 +149,15 @@
 </c:if>
 
 <script>
-	function WriteReplyList__showTop() {
+	function WriteReplyList__showDetail() {
 		var top = $('.article-replies-list-box').offset().top;
 		$(window).scrollTop(top);
 
-		var $firstTr = $('.article-replies-list-box > table > tbody > tr:first-child');
+		var $tr = $('.article-replies-list-box > table > tbody > tr[data-id="' + param.generatedArticleReplyId + '"]');
 
-		$firstTr.addClass('high');
+		$tr.addClass('high');
 		setTimeout(function() {
-			$firstTr.removeClass('high');
+			$tr.removeClass('high');
 		}, 1000);
 	}
 </script>
@@ -192,7 +192,7 @@
 		</thead>
 		<tbody>
 			<c:forEach items="${articleReplies}" var="articleReply">
-				<tr>
+				<tr data-id="${articleReply.id}">
 					<td class="text-align-center">${articleReply.id}</td>
 					<td class="text-align-center">${articleReply.regDate}</td>
 					<td class="padding-left-10 padding-right-10">
