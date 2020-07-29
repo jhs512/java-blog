@@ -47,12 +47,12 @@ public class App {
 
 	public void start() throws ServletException, IOException {
 		// Config 구성
-		
-		if ( req.getServletContext().getInitParameter("gmailId") != null ) {
-			Config.gmailId = (String) req.getServletContext().getInitParameter("gmailId");			
+
+		if (req.getServletContext().getInitParameter("gmailId") != null) {
+			Config.gmailId = (String) req.getServletContext().getInitParameter("gmailId");
 		}
-		
-		if ( req.getServletContext().getInitParameter("gmailPw") != null ) {
+
+		if (req.getServletContext().getInitParameter("gmailPw") != null) {
 			Config.gmailPw = (String) req.getServletContext().getInitParameter("gmailPw");
 		}
 
@@ -127,6 +127,9 @@ public class App {
 				String viewPath = "/jsp/" + actionResult;
 				req.getRequestDispatcher(viewPath).forward(req, resp);
 			} else if (actionResult.startsWith("html:")) {
+				resp.getWriter().append(actionResult.substring(5));
+			} else if (actionResult.startsWith("json:")) {
+				resp.setContentType("application/json");
 				resp.getWriter().append(actionResult.substring(5));
 			} else {
 				resp.getWriter().append("처리할 수 없는 액션결과입니다.");
