@@ -19,7 +19,7 @@ public class AttrService extends Service {
 		int relId = Integer.parseInt(nameBits[1]);
 		String typeCode = nameBits[2];
 		String type2Code = nameBits[3];
-		
+
 		return attrDao.get(relTypeCode, relId, typeCode, type2Code);
 	}
 
@@ -30,7 +30,7 @@ public class AttrService extends Service {
 		String typeCode = nameBits[2];
 		String type2Code = nameBits[3];
 
-		return attrDao.setValue(relTypeCode, relId, typeCode, type2Code, value);
+		return setValue(relTypeCode, relId, typeCode, type2Code, value);
 	}
 
 	public String getValue(String name) {
@@ -39,7 +39,11 @@ public class AttrService extends Service {
 		int relId = Integer.parseInt(nameBits[1]);
 		String typeCode = nameBits[2];
 		String type2Code = nameBits[3];
-		
+
+		return getValue(relTypeCode, relId, typeCode, type2Code);
+	}
+	
+	public String getValue(String relTypeCode, int relId, String typeCode, String type2Code) {
 		return attrDao.getValue(relTypeCode, relId, typeCode, type2Code);
 	}
 
@@ -49,7 +53,15 @@ public class AttrService extends Service {
 		int relId = Integer.parseInt(nameBits[1]);
 		String typeCode = nameBits[2];
 		String type2Code = nameBits[3];
-		
+
+		return remove(relTypeCode, relId, typeCode, type2Code);
+	}
+	
+	public int remove(String relTypeCode, int relId, String typeCode, String type2Code) {
 		return attrDao.remove(relTypeCode, relId, typeCode, type2Code);
+	}
+
+	public int setValue(String relTypeCode, int relId, String typeCode, String type2Code, String value) {
+		return attrDao.setValue(relTypeCode, relId, typeCode, type2Code, value);
 	}
 }
